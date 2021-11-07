@@ -1,0 +1,32 @@
+﻿  cBuffer.cpp
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\Chat_Common\cBuffer.h(16,27): warning C4251: 'cBuffer::_buffer': class 'std::vector<char,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'cBuffer'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\Chat_Common\cBuffer.h(16): message : see declaration of 'std::vector<char,std::allocator<char>>'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\Chat_Common\cBuffer.cpp(33,23): warning C4244: '=': conversion from 'int16_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=char
+          ]
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\Chat_Common\cBuffer.cpp(99,44): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  ProtocolManager.cpp
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\Chat_Common\cBuffer.h(16,27): warning C4251: 'cBuffer::_buffer': class 'std::vector<char,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'cBuffer'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\Chat_Common\cBuffer.h(16): message : see declaration of 'std::vector<char,std::allocator<char>>'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\Chat_Common\ProtocolManager.h(34,22): warning C4251: 'sPacket::roomname': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(4648): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\Chat_Common\ProtocolManager.h(36,22): warning C4251: 'sPacket::username': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(4648): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\Chat_Common\ProtocolManager.h(38,17): warning C4251: 'sPacket::msg': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(4648): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(44,58): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(46,41): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(64,58): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(66,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(84,58): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(86,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(113,56): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(116,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+     Creating library E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\x64\Release\Chat_Common.lib and object E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\x64\Release\Chat_Common.exp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 221 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Chat_Common.vcxproj -> E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project1_AnaDjurkovic\x64\Release\Chat_Common.dll
