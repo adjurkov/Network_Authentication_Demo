@@ -1,28 +1,13 @@
-#include <gen/authentication.pb.h>
-#include <mysql/jdbc.h>
+#include "DBHelper.h"
 
-using namespace sql::mysql;
+DBHelper database;
 
-void ConnectToMySQLServer()
-{
-	try 
-	{
-		// Returns a mySQL driver pointer
-		MySQL_Driver* driver = sql::mysql::get_driver_instance();
-	}
-	catch (sql::SQLException e)
-	{
-		printf("Failed to get driver instance with error %s\n", e.what());
-		return;
-	}
-	printf("Successfully retrieved the driver instance\n");
 
-}
 
 int main(int argc, char** argv)
 {
-	// To create a mySQL connection, we need a driver
-	ConnectToMySQLServer();
+	database.Connect("127.0.0.1", "root", "root");
+	database.CreateAccount("ana_djurkovic@hotmail.com", "password");
 	system("Pause");
 
 	return 0;
