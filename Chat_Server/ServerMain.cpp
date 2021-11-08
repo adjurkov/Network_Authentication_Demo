@@ -11,6 +11,8 @@
 #include "cBuffer.h"
 #include "ProtocolManager.h"
 
+#include <gen/authentication.pb.h>
+
 #pragma comment (lib, "Ws2_32.lib")
 #define DEFAULT_BUFLEN 16
 #define DEFAULT_PORT "5150"
