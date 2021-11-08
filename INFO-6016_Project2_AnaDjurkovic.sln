@@ -4,12 +4,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chat_Client", "Chat_Client\Chat_Client.vcxproj", "{F8682B85-6187-45A2-B199-902C7671DE86}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3D3D6E3F-5DE1-4442-BC76-1694CBB33981} = {3D3D6E3F-5DE1-4442-BC76-1694CBB33981}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chat_Common", "Chat_Common\Chat_Common.vcxproj", "{42A97098-42E8-4586-9A42-7700C3998FB8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chat_Server", "Chat_Server\Chat_Server.vcxproj", "{3D3D6E3F-5DE1-4442-BC76-1694CBB33981}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EC27211D-4243-483B-B38B-430FECF3A414} = {EC27211D-4243-483B-B38B-430FECF3A414}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chat_Authentication_Server", "Chat_Authentication_Server\Chat_Authentication_Server.vcxproj", "{EC27211D-4243-483B-B38B-430FECF3A414}"
+	ProjectSection(ProjectDependencies) = postProject
+		{42A97098-42E8-4586-9A42-7700C3998FB8} = {42A97098-42E8-4586-9A42-7700C3998FB8}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
