@@ -109,29 +109,72 @@ void sPacket::SerializeUserCommand(sPacket& packet, std::vector<char> &userMessa
 				std::string s(userMessage.begin(), userMessage.end());
 				std::istringstream iss(s);
 				while (iss >> token) {
-					msgEmail = token;
+					if (token != "/register")
+					{
+						msgEmail = token;
+						break;
+					}
 				}
 				// Get password
 				std::string msgPassword;
 				while (iss >> token) {
 					msgPassword = token;
+					break;
 				}
 
-
-
-			/*	for (int i = messageStartIndex + 1; i < userMessage.size(); i++)
-					msg += userMessage.at(i);*/
-
-				packet.header.packetLength = 4 + 4 + 4 + msg.length(); // 4-int, 4-enum, 4-int, msg length
-				packet.header.msgID = LeaveRoom;
-				packet.roomLength = msg.length();
-				packet.roomname = msg;
+				packet.header.packetLength = 4 + 4 + 4 + msgEmail.length() + 4 + msgPassword.length(); // 4-int, 4-enum, 4-int, msg length
+				packet.header.msgID = Register;
+				packet.emailLength = msgEmail.length();
+				packet.email = msgEmail;
+				packet.passwordLength = msgPassword.length();
+				packet.password = msgPassword;
 
 				// Serialize
 				buffer.writeIntBE(packet.header.packetLength);
 				buffer.writeIntBE(packet.header.msgID);
-				buffer.writeIntBE(packet.roomLength);
-				buffer.writeString(packet.roomname);
+				buffer.writeIntBE(packet.emailLength);
+				buffer.writeString(packet.email);
+				buffer.writeIntBE(packet.passwordLength);
+				buffer.writeString(packet.password);
+				break;
+			}
+
+			else if (messageType == "/authenticate")
+			{
+				std::string token;
+
+				// Get email
+				std::string msgEmail;
+				std::string s(userMessage.begin(), userMessage.end());
+				std::istringstream iss(s);
+				while (iss >> token) {
+					if (token != "/authenticate")
+					{
+						msgEmail = token;
+						break;
+					}
+				}
+				// Get password
+				std::string msgPassword;
+				while (iss >> token) {
+					msgPassword = token;
+					break;
+				}
+
+				packet.header.packetLength = 4 + 4 + 4 + msgEmail.length() + 4 + msgPassword.length(); // 4-int, 4-enum, 4-int, msg length
+				packet.header.msgID = Authenticate;
+				packet.emailLength = msgEmail.length();
+				packet.email = msgEmail;
+				packet.passwordLength = msgPassword.length();
+				packet.password = msgPassword;
+
+				// Serialize
+				buffer.writeIntBE(packet.header.packetLength);
+				buffer.writeIntBE(packet.header.msgID);
+				buffer.writeIntBE(packet.emailLength);
+				buffer.writeString(packet.email);
+				buffer.writeIntBE(packet.passwordLength);
+				buffer.writeString(packet.password);
 				break;
 			}
 

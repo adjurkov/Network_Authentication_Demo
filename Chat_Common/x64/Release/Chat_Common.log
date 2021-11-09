@@ -17,14 +17,18 @@ E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_
 E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(72,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(90,58): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(92,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(125,58): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(127,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(154,56): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(157,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(125,90): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(127,43): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(129,49): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(164,90): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(166,43): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(168,49): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(197,56): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(200,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
      Creating library E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\x64\Release\Chat_Common.lib and object E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\x64\Release\Chat_Common.exp
   Generating code
-  151 of 652 functions (23.2%) were compiled, the rest were copied from previous compilation.
-    72 functions were new in current compilation
-    44 functions had inline decision re-evaluated but remain unchanged
+  1 of 653 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    14 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Chat_Common.vcxproj -> E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\x64\Release\Chat_Common.dll
