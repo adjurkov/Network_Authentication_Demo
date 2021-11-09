@@ -197,6 +197,8 @@ int main(int argc, char** argv)
 	printf("	/name insertNameHere \n");
 	printf("	/join insertRoomNameHere \n");
 	printf("	/leave insertRoomNameHere \n\n");
+	printf("	/register insertEmailHere insertPasswordHere \n\n");
+	printf("	/authenticate insertEmailHere insertPasswordHere \n\n");
 	printf("Once in a room, simply type your message and hit enter! \n");
 
 

@@ -1,4 +1,5 @@
 #include "ProtocolManager.h"
+#include <sstream>
 
 // Default Constructor
 sPacket::sPacket()
@@ -11,6 +12,11 @@ sPacket::sPacket()
 	username = " ";
 	msgLength = 0;
 	msg = " ";
+
+	emailLength = 0;
+	email = " ";
+	passwordLength = 0;
+	password = " ";
 }
 
 // Serialize a packet given one of the user commands (/name, /join, /leave, or plain message)
@@ -80,6 +86,41 @@ void sPacket::SerializeUserCommand(sPacket& packet, std::vector<char> &userMessa
 				std::string msg;
 				for (int i = messageStartIndex + 1; i < userMessage.size(); i++)
 					msg += userMessage.at(i);
+
+				packet.header.packetLength = 4 + 4 + 4 + msg.length(); // 4-int, 4-enum, 4-int, msg length
+				packet.header.msgID = LeaveRoom;
+				packet.roomLength = msg.length();
+				packet.roomname = msg;
+
+				// Serialize
+				buffer.writeIntBE(packet.header.packetLength);
+				buffer.writeIntBE(packet.header.msgID);
+				buffer.writeIntBE(packet.roomLength);
+				buffer.writeString(packet.roomname);
+				break;
+			}
+
+			else if (messageType == "/register")
+			{
+				std::string token;
+
+				// Get email
+				std::string msgEmail;
+				std::string s(userMessage.begin(), userMessage.end());
+				std::istringstream iss(s);
+				while (iss >> token) {
+					msgEmail = token;
+				}
+				// Get password
+				std::string msgPassword;
+				while (iss >> token) {
+					msgPassword = token;
+				}
+
+
+
+			/*	for (int i = messageStartIndex + 1; i < userMessage.size(); i++)
+					msg += userMessage.at(i);*/
 
 				packet.header.packetLength = 4 + 4 + 4 + msg.length(); // 4-int, 4-enum, 4-int, msg length
 				packet.header.msgID = LeaveRoom;

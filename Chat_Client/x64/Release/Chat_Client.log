@@ -1,16 +1,20 @@
 ﻿  ClientMain.cpp
 E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\cBuffer.h(16,27): warning C4251: 'cBuffer::_buffer': class 'std::vector<char,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'cBuffer'
 E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\cBuffer.h(16): message : see declaration of 'std::vector<char,std::allocator<char>>'
-E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(34,22): warning C4251: 'sPacket::roomname': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(38,22): warning C4251: 'sPacket::roomname': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(4648): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
-E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(36,22): warning C4251: 'sPacket::username': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(40,22): warning C4251: 'sPacket::username': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(4648): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
-E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(38,17): warning C4251: 'sPacket::msg': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(42,17): warning C4251: 'sPacket::msg': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(4648): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(44,19): warning C4251: 'sPacket::email': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(4648): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(46,22): warning C4251: 'sPacket::password': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(4648): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
      Creating library E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\x64\Release\Chat_Client.lib and object E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\x64\Release\Chat_Client.exp
   Generating code
-  168 of 173 functions (97.1%) were compiled, the rest were copied from previous compilation.
-    6 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+  12 of 173 functions ( 6.9%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    4 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Chat_Client.vcxproj -> E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\x64\Release\Chat_Client.exe

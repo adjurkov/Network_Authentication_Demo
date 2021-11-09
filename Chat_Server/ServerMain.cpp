@@ -17,11 +17,16 @@
 #define DEFAULT_BUFLEN 16
 #define DEFAULT_PORT "5150"
 
+
+#define SERVER "127.0.0.1"  
+
+
 //----------------------------------------   Client Structure   ------------------------------------------------
 struct ClientInfo 
 {
 	SOCKET socket;
 	std::string username;
+	// add request id here
 
 	WSABUF dataBuf;
 	cBuffer* buffer;
@@ -48,6 +53,8 @@ std::string username;
 int result;
 SOCKET listenSocket = INVALID_SOCKET;
 SOCKET acceptSocket = INVALID_SOCKET;
+SOCKET authSocket = INVALID_SOCKET;
+
 FD_SET ReadSet;
 int total;
 DWORD flags;
@@ -104,6 +111,7 @@ int init()
 	
 
 	struct addrinfo* addrResult = NULL;
+	struct addrinfo* infoResult = NULL; //new
 	struct addrinfo hints;
 
 	// Define our connection address info 
@@ -126,7 +134,24 @@ int init()
 		printf("getaddrinfo() is successful!\n");
 	}
 
-	// Create a SOCKET for connecting to the server
+	// Define our connection address info 
+	hints.ai_family = AF_UNSPEC;
+
+	// NEW
+	// Resolve the server address and port
+	result = getaddrinfo(SERVER, "5050", &hints, &infoResult);
+	if (result != 0)
+	{
+		printf("getaddrinfo() failed with error %d\n", result);
+		WSACleanup();
+		return 1;
+	}
+	else
+	{
+		printf("getaddrinfo() is successful!\n");
+	}
+
+	// Create a SOCKET for connecting with server
 	listenSocket = socket(
 		addrResult->ai_family,
 		addrResult->ai_socktype,
@@ -143,6 +168,65 @@ int init()
 	{
 		printf("socket() is created!\n");
 	}
+
+	// New
+	// Create a SOCKET for connecting to the server
+	authSocket = socket(
+		infoResult->ai_family,
+		infoResult->ai_socktype,
+		infoResult->ai_protocol
+	);
+
+	//-------------------------------------   Connect to Address Attempt (server->authen)  ---------------------------------------------
+	
+	for (addrinfo* ptr = infoResult; ptr != NULL; ptr = ptr->ai_next)
+	{
+		printf("hi\n");
+		// Create a Socket for connecting to server
+		authSocket = socket(infoResult->ai_family, ptr->ai_socktype, ptr->ai_protocol);
+
+		if (authSocket == INVALID_SOCKET)
+		{
+			printf("socket failed with error: %ld\n", WSAGetLastError());
+			WSACleanup();
+			return 1;
+		}
+
+		// Non-blocking
+		DWORD NonBlock = 1;
+		result = ioctlsocket(authSocket, FIONBIO, &NonBlock);
+		if (result == SOCKET_ERROR)
+		{
+			printf("ioctlsocket() failed with error %d\n", WSAGetLastError());
+			closesocket(authSocket);
+			WSACleanup();
+			return 1;
+		}
+
+		// Connect to server
+		result = connect(authSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
+		if (result == SOCKET_ERROR)
+		{
+			if (WSAGetLastError() == WSAEWOULDBLOCK)
+			{
+				break;
+			}
+			closesocket(authSocket);
+			authSocket = INVALID_SOCKET;
+			continue;
+		}
+		break;
+	}
+	freeaddrinfo(infoResult);
+
+	if (authSocket == INVALID_SOCKET)
+	{
+		printf("Unable to connect to server!\n");
+		WSACleanup();
+		return 1;
+	}
+
+
 
 	//------------------------------------------   Bind Socket   --------------------------------------------------
 	result = bind(listenSocket, addrResult->ai_addr, (int)addrResult->ai_addrlen);
