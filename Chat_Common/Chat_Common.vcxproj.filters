@@ -21,7 +21,10 @@
     <ClInclude Include="ProtocolManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\dev\include\gen\authentication.pb.h">
+    <ClInclude Include="cProtobuf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gen\authentication.pb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,8 +35,11 @@
     <ClCompile Include="ProtocolManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\dev\include\gen\authentication.pb.cc">
-      <Filter>Header Files</Filter>
+    <ClCompile Include="cProtobuf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gen\authentication.pb.cc">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

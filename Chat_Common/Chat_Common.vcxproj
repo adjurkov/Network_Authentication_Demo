@@ -78,12 +78,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)dev\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dev\include;$(SolutionDir)dev\gen;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)dev\lib\x64\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)dev\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dev\include;$(SolutionDir)dev\gen;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)dev\lib\x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -145,13 +145,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\dev\include\gen\authentication.pb.h" />
     <ClInclude Include="cBuffer.h" />
+    <ClInclude Include="cProtobuf.h" />
+    <ClInclude Include="gen\authentication.pb.h" />
     <ClInclude Include="ProtocolManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\dev\include\gen\authentication.pb.cc" />
     <ClCompile Include="cBuffer.cpp" />
+    <ClCompile Include="cProtobuf.cpp" />
+    <ClCompile Include="gen\authentication.pb.cc" />
     <ClCompile Include="ProtocolManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

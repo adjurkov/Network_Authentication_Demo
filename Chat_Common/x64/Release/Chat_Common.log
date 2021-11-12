@@ -1,15 +1,40 @@
-﻿  ProtocolManager.cpp
+﻿  cBuffer.cpp
 E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\cBuffer.h(16,27): warning C4251: 'cBuffer::_buffer': class 'std::vector<char,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'cBuffer'
 E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\cBuffer.h(16): message : see declaration of 'std::vector<char,std::allocator<char>>'
-E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(38,22): warning C4251: 'sPacket::roomname': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\cBuffer.cpp(33,23): warning C4244: '=': conversion from 'int16_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=char
+          ]
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\cBuffer.cpp(99,44): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  cProtobuf.cpp
+  authentication.pb.cc
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\gen\authentication.pb.cc(380,71): warning C4244: '=': conversion from 'uint64_t' to 'google::protobuf::int32', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\gen\authentication.pb.cc(689,71): warning C4244: '=': conversion from 'uint64_t' to 'google::protobuf::int32', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\gen\authentication.pb.cc(698,68): warning C4244: '=': conversion from 'uint64_t' to 'google::protobuf::int32', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\gen\authentication.pb.cc(943,71): warning C4244: '=': conversion from 'uint64_t' to 'google::protobuf::int32', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\gen\authentication.pb.cc(953,15): warning C4244: 'argument': conversion from 'google::protobuf::uint64' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\gen\authentication.pb.cc(1220,71): warning C4244: '=': conversion from 'uint64_t' to 'google::protobuf::int32', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\gen\authentication.pb.cc(1542,71): warning C4244: '=': conversion from 'uint64_t' to 'google::protobuf::int32', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\gen\authentication.pb.cc(1551,68): warning C4244: '=': conversion from 'uint64_t' to 'google::protobuf::int32', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\gen\authentication.pb.cc(1840,71): warning C4244: '=': conversion from 'uint64_t' to 'google::protobuf::int32', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\gen\authentication.pb.cc(1850,15): warning C4244: 'argument': conversion from 'google::protobuf::uint64' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\dev\include\google\protobuf\has_bits.h(73,1): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\dev\include\google\protobuf\has_bits.h(72): message : while compiling class template member function 'void google::protobuf::internal::HasBits<1>::Or(const google::protobuf::internal::HasBits<1> &)'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\gen\authentication.pb.cc(425): message : see reference to function template instantiation 'void google::protobuf::internal::HasBits<1>::Or(const google::protobuf::internal::HasBits<1> &)' being compiled
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\dev\include\google\protobuf\has_bits.h(83): message : see reference to class template instantiation 'google::protobuf::internal::HasBits<1>' being compiled
+  ProtocolManager.cpp
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\cBuffer.h(16,27): warning C4251: 'cBuffer::_buffer': class 'std::vector<char,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'cBuffer'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\cBuffer.h(16): message : see declaration of 'std::vector<char,std::allocator<char>>'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(35,22): warning C4251: 'sPacket::roomname': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(4648): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
-E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(40,22): warning C4251: 'sPacket::username': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(37,22): warning C4251: 'sPacket::username': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(4648): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
-E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(42,17): warning C4251: 'sPacket::msg': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(39,17): warning C4251: 'sPacket::msg': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(4648): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
-E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(44,19): warning C4251: 'sPacket::email': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(41,19): warning C4251: 'sPacket::email': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(4648): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
-E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(46,22): warning C4251: 'sPacket::password': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
+E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.h(43,22): warning C4251: 'sPacket::password': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of struct 'sPacket'
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(4648): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
 E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(50,58): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(52,41): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
@@ -27,8 +52,7 @@ E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_
 E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\Chat_Common\ProtocolManager.cpp(200,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
      Creating library E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\x64\Release\Chat_Common.lib and object E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\x64\Release\Chat_Common.exp
   Generating code
-  1 of 653 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    14 functions had inline decision re-evaluated but remain unchanged
+  Previous IPDB not found, fall back to full compilation.
+  All 673 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   Chat_Common.vcxproj -> E:\Fanshawe\Fall_Term\INFO_6016_Network_Programming\Projects\INFO-6016_Project2_AnaDjurkovic\x64\Release\Chat_Common.dll

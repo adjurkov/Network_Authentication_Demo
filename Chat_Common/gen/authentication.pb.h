@@ -663,6 +663,7 @@ class CreateAccountWebFailure final :
 
   enum : int {
     kRequestIdFieldNumber = 1,
+    kFailureReasonFieldNumber = 2,
   };
   // required int32 requestId = 1;
   bool has_requestid() const;
@@ -677,9 +678,25 @@ class CreateAccountWebFailure final :
   void _internal_set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // required .authentication.CreateAccountWebFailure.reason failureReason = 2;
+  bool has_failurereason() const;
+  private:
+  bool _internal_has_failurereason() const;
+  public:
+  void clear_failurereason();
+  ::authentication::CreateAccountWebFailure_reason failurereason() const;
+  void set_failurereason(::authentication::CreateAccountWebFailure_reason value);
+  private:
+  ::authentication::CreateAccountWebFailure_reason _internal_failurereason() const;
+  void _internal_set_failurereason(::authentication::CreateAccountWebFailure_reason value);
+  public:
+
   // @@protoc_insertion_point(class_scope:authentication.CreateAccountWebFailure)
  private:
   class _Internal;
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
 
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
@@ -687,6 +704,7 @@ class CreateAccountWebFailure final :
   ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   ::PROTOBUF_NAMESPACE_ID::int32 requestid_;
+  int failurereason_;
   friend struct ::TableStruct_authentication_2eproto;
 };
 // -------------------------------------------------------------------
@@ -1239,6 +1257,7 @@ class AuthenticateWebFailure final :
 
   enum : int {
     kRequestIdFieldNumber = 1,
+    kFailureReasonFieldNumber = 2,
   };
   // required int32 requestId = 1;
   bool has_requestid() const;
@@ -1253,9 +1272,25 @@ class AuthenticateWebFailure final :
   void _internal_set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // required .authentication.AuthenticateWebFailure.reason failureReason = 2;
+  bool has_failurereason() const;
+  private:
+  bool _internal_has_failurereason() const;
+  public:
+  void clear_failurereason();
+  ::authentication::AuthenticateWebFailure_reason failurereason() const;
+  void set_failurereason(::authentication::AuthenticateWebFailure_reason value);
+  private:
+  ::authentication::AuthenticateWebFailure_reason _internal_failurereason() const;
+  void _internal_set_failurereason(::authentication::AuthenticateWebFailure_reason value);
+  public:
+
   // @@protoc_insertion_point(class_scope:authentication.AuthenticateWebFailure)
  private:
   class _Internal;
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
 
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
@@ -1263,6 +1298,7 @@ class AuthenticateWebFailure final :
   ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   ::PROTOBUF_NAMESPACE_ID::int32 requestid_;
+  int failurereason_;
   friend struct ::TableStruct_authentication_2eproto;
 };
 // ===================================================================
@@ -1510,6 +1546,35 @@ inline void CreateAccountWebFailure::_internal_set_requestid(::PROTOBUF_NAMESPAC
 inline void CreateAccountWebFailure::set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_requestid(value);
   // @@protoc_insertion_point(field_set:authentication.CreateAccountWebFailure.requestId)
+}
+
+// required .authentication.CreateAccountWebFailure.reason failureReason = 2;
+inline bool CreateAccountWebFailure::_internal_has_failurereason() const {
+  bool value = (_has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool CreateAccountWebFailure::has_failurereason() const {
+  return _internal_has_failurereason();
+}
+inline void CreateAccountWebFailure::clear_failurereason() {
+  failurereason_ = 0;
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline ::authentication::CreateAccountWebFailure_reason CreateAccountWebFailure::_internal_failurereason() const {
+  return static_cast< ::authentication::CreateAccountWebFailure_reason >(failurereason_);
+}
+inline ::authentication::CreateAccountWebFailure_reason CreateAccountWebFailure::failurereason() const {
+  // @@protoc_insertion_point(field_get:authentication.CreateAccountWebFailure.failureReason)
+  return _internal_failurereason();
+}
+inline void CreateAccountWebFailure::_internal_set_failurereason(::authentication::CreateAccountWebFailure_reason value) {
+  assert(::authentication::CreateAccountWebFailure_reason_IsValid(value));
+  _has_bits_[0] |= 0x00000002u;
+  failurereason_ = value;
+}
+inline void CreateAccountWebFailure::set_failurereason(::authentication::CreateAccountWebFailure_reason value) {
+  _internal_set_failurereason(value);
+  // @@protoc_insertion_point(field_set:authentication.CreateAccountWebFailure.failureReason)
 }
 
 // -------------------------------------------------------------------
@@ -1808,6 +1873,35 @@ inline void AuthenticateWebFailure::_internal_set_requestid(::PROTOBUF_NAMESPACE
 inline void AuthenticateWebFailure::set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_requestid(value);
   // @@protoc_insertion_point(field_set:authentication.AuthenticateWebFailure.requestId)
+}
+
+// required .authentication.AuthenticateWebFailure.reason failureReason = 2;
+inline bool AuthenticateWebFailure::_internal_has_failurereason() const {
+  bool value = (_has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool AuthenticateWebFailure::has_failurereason() const {
+  return _internal_has_failurereason();
+}
+inline void AuthenticateWebFailure::clear_failurereason() {
+  failurereason_ = 0;
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline ::authentication::AuthenticateWebFailure_reason AuthenticateWebFailure::_internal_failurereason() const {
+  return static_cast< ::authentication::AuthenticateWebFailure_reason >(failurereason_);
+}
+inline ::authentication::AuthenticateWebFailure_reason AuthenticateWebFailure::failurereason() const {
+  // @@protoc_insertion_point(field_get:authentication.AuthenticateWebFailure.failureReason)
+  return _internal_failurereason();
+}
+inline void AuthenticateWebFailure::_internal_set_failurereason(::authentication::AuthenticateWebFailure_reason value) {
+  assert(::authentication::AuthenticateWebFailure_reason_IsValid(value));
+  _has_bits_[0] |= 0x00000002u;
+  failurereason_ = value;
+}
+inline void AuthenticateWebFailure::set_failurereason(::authentication::AuthenticateWebFailure_reason value) {
+  _internal_set_failurereason(value);
+  // @@protoc_insertion_point(field_set:authentication.AuthenticateWebFailure.failureReason)
 }
 
 #ifdef __GNUC__

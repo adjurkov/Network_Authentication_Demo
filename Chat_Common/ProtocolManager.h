@@ -7,18 +7,15 @@
 #define DLLExport __declspec ( dllexport )
 
 
-// Message ID Types
+// Message ID Types 
 enum
 {
-	// Client Side
 	JoinRoom = 1,
 	LeaveRoom = 2,
 	SetName = 3,
 	Broadcast = 4,
-	Register = 5,
-	Authenticate = 6,
-
-	// ServerSide
+	Register = 5,			// also tied to client socket as request id
+	Authenticate = 6,		// also tied to client socket as request id
 	AcceptedUsername = 7,
 };
 

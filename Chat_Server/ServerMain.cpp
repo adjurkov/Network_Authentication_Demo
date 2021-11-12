@@ -10,8 +10,9 @@
 #include <iostream>
 #include "cBuffer.h"
 #include "ProtocolManager.h"
+#include "cProtobuf.h"
 
-#include <gen/authentication.pb.h>
+//#include <gen/authentication.pb.h>
 
 #pragma comment (lib, "Ws2_32.lib")
 #define DEFAULT_BUFLEN 16
@@ -26,13 +27,15 @@ struct ClientInfo
 {
 	SOCKET socket;
 	std::string username;
-	// add request id here
+	int requestId;
 
 	WSABUF dataBuf;
 	cBuffer* buffer;
+	cProtobuf* protobuf;
 	int bytesRECV;
 };
 //----------------------------------------   Global Variables   ------------------------------------------------
+
 
 // Managing client information, and which room they are in
 int TotalClients = 0;
@@ -181,7 +184,6 @@ int init()
 	
 	for (addrinfo* ptr = infoResult; ptr != NULL; ptr = ptr->ai_next)
 	{
-		printf("hi\n");
 		// Create a Socket for connecting to server
 		authSocket = socket(infoResult->ai_family, ptr->ai_socktype, ptr->ai_protocol);
 
@@ -192,16 +194,16 @@ int init()
 			return 1;
 		}
 
-		// Non-blocking
-		DWORD NonBlock = 1;
-		result = ioctlsocket(authSocket, FIONBIO, &NonBlock);
-		if (result == SOCKET_ERROR)
-		{
-			printf("ioctlsocket() failed with error %d\n", WSAGetLastError());
-			closesocket(authSocket);
-			WSACleanup();
-			return 1;
-		}
+		//// Non-blocking
+		//DWORD NonBlock = 1;
+		//result = ioctlsocket(authSocket, FIONBIO, &NonBlock);
+		//if (result == SOCKET_ERROR)
+		//{
+		//	printf("ioctlsocket() failed with error %d\n", WSAGetLastError());
+		//	closesocket(authSocket);
+		//	WSACleanup();
+		//	return 1;
+		//}
 
 		// Connect to server
 		result = connect(authSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
@@ -226,6 +228,16 @@ int init()
 		return 1;
 	}
 
+	const char* sendbuf = "this is a test";
+	// Send an initial buffer OT AUTH SERVER, TEST
+	result = send(authSocket, sendbuf, (int)strlen(sendbuf), 0);
+	if (result == SOCKET_ERROR) {
+		printf("send failed with error: %d\n", WSAGetLastError());
+		closesocket(authSocket);
+		WSACleanup();
+		return 1;
+	}
+	printf("Bytes Sent: %ld\n", result);
 
 
 	//------------------------------------------   Bind Socket   --------------------------------------------------
@@ -329,6 +341,7 @@ int main(int argc, char** argv)
 					info->socket = acceptSocket; // storing new socket as accept socket
 					info->bytesRECV = 0; // the write index
 					info->buffer = new cBuffer;
+					info->protobuf = new cProtobuf;
 					info->buffer->_buffer.resize(500);
 
 					clientSockets.push_back(info);
@@ -643,6 +656,116 @@ int main(int argc, char** argv)
 
 								break;
 							}
+			//***************************************  MESSAGE ID: REGISTER  ************************************************
+							case Register:
+							{
+								// Tie request id to the client socket
+								client->requestId = msgID;
+
+								// Read in the rest of the packet
+								packet.emailLength = client->buffer->readIntBE();
+								packet.email = client->buffer->readString(packet.emailLength);
+								packet.passwordLength = client->buffer->readIntBE();
+								packet.password = client->buffer->readString(packet.passwordLength);
+								packetLength = 4 + 4 + 4 + packet.emailLength + 4 + packet.passwordLength;
+								packet.header.packetLength = packetLength;
+
+								// Prepare to send to authentication server
+								client->protobuf->create_account_web->set_requestid(client->requestId);
+								client->protobuf->create_account_web->set_email(packet.email);
+								client->protobuf->create_account_web->set_plaintextpassword(packet.password);
+
+								// Clear the buffer
+								client->buffer->_buffer.clear();
+								client->buffer->readIndex = 0;
+								client->buffer->writeIndex = 0;
+
+								// Growing the buffer just enough to deal with packet
+								int newBufferSize = packet.header.packetLength;
+								client->buffer->_buffer.resize(newBufferSize);
+
+								// Serialize message to be sent
+								std::string serializedString;
+
+								
+								client->protobuf->create_account_web->SerializeToString(&serializedString);
+								int packetSize = 4 + serializedString.length();
+
+								// Change this probably
+							/*	client->buffer->writeIntBE(packet.header.packetLength);
+								client->buffer->writeIntBE(packet.header.msgID);
+								client->buffer->writeIntBE(serializedString.length());
+								client->buffer->writeString(serializedString);*/
+		
+								client->buffer->writeIntBE(packetSize);
+								client->buffer->writeString(serializedString);
+
+								// Send to authentication server
+								result = send(authSocket, client->buffer->_buffer.data(), packetSize, 0);
+								if (result == SOCKET_ERROR)
+								{
+									printf("send failed with error: %d\n", WSAGetLastError());
+									closesocket(authSocket);
+									WSACleanup();
+									return 1;
+								}
+							
+							
+
+
+
+
+								//// Preparing msg back to client
+								//packet.msg = "SERVER: [" + client->username + "] has left room [" + packet.roomname + "]";
+								//packet.msgLength = packet.msg.length();
+								//packetLength = 4 + 4 + 4 + packet.msgLength;
+								//packet.header.packetLength = packetLength;
+								//packet.header.msgID = LeaveRoom;
+
+								//// Clear the buffer
+								//client->buffer->_buffer.clear();
+								//client->buffer->readIndex = 0;
+								//client->buffer->writeIndex = 0;
+
+								//// Growing the buffer just enough to deal with packet
+								//int newBufferSize = packet.header.packetLength;
+								//client->buffer->_buffer.resize(newBufferSize);
+
+								//// Serialize
+								//client->buffer->writeIntBE(packet.header.packetLength);
+								//client->buffer->writeIntBE(packet.header.msgID);
+								//client->buffer->writeIntBE(packet.msgLength);
+								//client->buffer->writeString(packet.msg);
+
+								//// SENDING.............................................................. 
+								//client->dataBuf.buf = client->buffer->_buffer.data();
+								//client->dataBuf.len = client->buffer->_buffer.size();
+
+								//// Sending everyone in the room that a user has left that room
+								//for (int i = 0; i < clientsInRooms[packet.roomname].size(); i++)
+								//{
+								//	result = WSASend( //sending data right back to client
+								//		clientsInRooms[packet.roomname].at(i)->socket,
+								//		&(client->dataBuf),
+								//		1,
+								//		&SentBytes,
+								//		Flags,
+								//		NULL,
+								//		NULL
+								//	);
+								//	if (SentBytes == SOCKET_ERROR)
+								//		printf("send error %d\n", WSAGetLastError());
+								//	else if (SentBytes == 0)
+								//		printf("Send result is 0\n");
+								//	else
+								//		printf("Successfully sent %d bytes!\n", SentBytes);
+								//}
+
+								//// Remove client from that room
+								//clientsInRooms[packet.roomname].erase(remove(clientsInRooms[packet.roomname].begin(), clientsInRooms[packet.roomname].end(), client), clientsInRooms[packet.roomname].end());
+
+								break;
+							}
 
 							default:
 								break;
@@ -651,6 +774,16 @@ int main(int argc, char** argv)
 					}
 				}
 			}
+			char recvbuf[DEFAULT_BUFLEN];
+			int recvbuflen = DEFAULT_BUFLEN;
+			// Recv from aith server
+			result = recv(authSocket, recvbuf, recvbuflen, 0);
+			if (result > 0)
+				printf("Bytes received: %d\n", result);
+			else if (result == 0)
+				printf("Connection closed\n");
+			else
+				printf("recv failed with error: %d\n", WSAGetLastError());
 	}
 
 	// Close

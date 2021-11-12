@@ -1,9 +1,4 @@
-#include "DBHelper.h"
-
-DBHelper database;
-//--------------------------------------------
-
-#define WIN32_LEAN_AND_MEAN		
+#define WIN32_LEAN_AND_MEAN	
 
 #include <Windows.h>
 #include <WinSock2.h>
@@ -14,31 +9,36 @@ DBHelper database;
 #include <map>
 #include <iostream>
 
+#include "DBHelper.h"
+#include "cProtobuf.h"
+#include "cBuffer.h"
 
-#include <gen/authentication.pb.h>
+DBHelper database;
+
+//#include <gen/authentication.pb.h>
 
 #pragma comment (lib, "Ws2_32.lib")
-#define DEFAULT_BUFLEN 16
+#define DEFAULT_BUFLEN 512
 #define DEFAULT_PORT "5050"
 
-#define SERVER "127.0.0.1"  
-SOCKET connectSocket = INVALID_SOCKET;
 
-//----------------------------------------   Global Variables   ------------------------------------------------
+SOCKET clientSocket = INVALID_SOCKET;
+SOCKET listenSocket = INVALID_SOCKET;
+//SOCKET acceptSocket = INVALID_SOCKET;
 
 int result;
-SOCKET listenSocket = INVALID_SOCKET;
-SOCKET acceptSocket = INVALID_SOCKET;
-FD_SET ReadSet;
-int total;
-DWORD flags;
+
 DWORD RecvBytes;
 DWORD SentBytes;
+FD_SET ReadSet;
+int total;
 DWORD NonBlock = 1;
 
+WSABUF dataBuf;
+cBuffer* buffer;
+cProtobuf* protobuf;
+
 //--------------------------------------------------------------------------------------------------------------
-
-
 
 int init()
 {
@@ -91,11 +91,7 @@ int init()
 	}
 
 	// Create a SOCKET for connecting to the server
-	listenSocket = socket(
-		addrResult->ai_family,
-		addrResult->ai_socktype,
-		addrResult->ai_protocol
-	);
+	listenSocket = socket(addrResult->ai_family, addrResult->ai_socktype, addrResult->ai_protocol);
 	if (listenSocket == INVALID_SOCKET)
 	{
 		printf("socket() failed with error %d\n", WSAGetLastError());
@@ -139,134 +135,88 @@ int init()
 	{
 		printf("Listening for connections...\n");
 	}
+	//result = ioctlsocket(listenSocket, FIONBIO, &NonBlock);
+	//if (result == SOCKET_ERROR)
+	//{
+	//	printf("ioctlsocket() failed with error %d\n", WSAGetLastError());
+	//	closesocket(listenSocket);
+	//	WSACleanup();
+	//	return 1;
+	//}
+	//printf("ioctlsocket() was successful!\n");
 
-
-	result = ioctlsocket(listenSocket, FIONBIO, &NonBlock);
-	if (result == SOCKET_ERROR)
+	clientSocket = accept(listenSocket, NULL, NULL);
+	if (clientSocket == INVALID_SOCKET)
 	{
-		printf("ioctlsocket() failed with error %d\n", WSAGetLastError());
+		printf("accept() failed with error %d\n", WSAGetLastError());
 		closesocket(listenSocket);
 		WSACleanup();
 		return 1;
 	}
-	printf("ioctlsocket() was successful!\n");
+	else
+	{
+		printf("New client connected on socket %d\n", (int)clientSocket);
+	}
 
-
+	// idk if i should be closing this
+	closesocket(listenSocket);
+	
 }
 
 int main(int argc, char** argv)
 {
+	buffer = new cBuffer();
+
 	// Initialize winsock, create sockets, bind, listen
 	init();
-
+	char recvbuf[DEFAULT_BUFLEN];
+	int recvbuflen = DEFAULT_BUFLEN;
 	//----------------------------------------   Network Loop   ------------------------------------------------
 	printf("Entering accept/recv/send loop...\n");
-	while (true)
+	do
 	{
-		timeval tv = { 0 };
-		tv.tv_sec = 2;
-		// Initialize our read set
-		FD_ZERO(&ReadSet); // everyloop we initialize to zero
 
-		// Always look for connection attempts
-		// we need to read from this socket every loop
-		FD_SET(listenSocket, &ReadSet);
+		std::string serializedMsg;
 
-		// Adding all the client sockets to the readset for each room
-	/*	for (std::vector<ClientInfo*>::iterator iter = clientSockets.begin(); iter != clientSockets.end(); ++iter)
-			FD_SET((*iter)->socket, &ReadSet);*/
+		/*	dataBuf.buf = protobuf
+			dataBuf.len = client->buffer->_buffer.size();*/
 
-			// Call our select function to find the sockets that require our attention
-		total = select(0, &ReadSet, NULL, NULL, &tv);
-		if (total == SOCKET_ERROR)
+		
+		result = recv(clientSocket, recvbuf, recvbuflen, 0);
+		// Result > 0 we receive data, if 0 connection lost
+		if (result > 0)
 		{
-			printf("select() failed with error: %d\n", WSAGetLastError());
-			return 1;
-		}
+			printf("Bytes received: %d\n", result);
+			/*	int packetLength = buffer->readIntBE();
+				int msgID = buffer->readIntBE();
 
-		// Check for arriving connections on the listening socket
-		if (FD_ISSET(listenSocket, &ReadSet))
-		{
-			total--; // remove one from the total (total is the size of the readset)
-			acceptSocket = accept(listenSocket, NULL, NULL);
-			if (acceptSocket == INVALID_SOCKET)
-			{
-				printf("accept() failed with error %d\n", WSAGetLastError());
+				std::cout << " packetlength:" << packetLength << std::endl;*/
+
+
+			// echo TEST buffer back to sender
+			result = send(clientSocket, recvbuf, result, 0);
+			if (result == SOCKET_ERROR) {
+				printf("send failed with error: %d\n", WSAGetLastError());
+				closesocket(clientSocket);
+				WSACleanup();
 				return 1;
 			}
-			else
-			{
-				// Set to non-blocking
-				result = ioctlsocket(acceptSocket, FIONBIO, &NonBlock);
-				if (result == SOCKET_ERROR)
-				{
-					printf("ioctsocket() failed with error %d\n", WSAGetLastError());
-				}
-				else
-				{
-					//ClientInfo* info = new ClientInfo(); // add as client
-
-					//info->socket = acceptSocket; // storing new socket as accept socket
-					//info->bytesRECV = 0; // the write index
-					//info->buffer = new cBuffer;
-					//info->buffer->_buffer.resize(500);
-
-					//clientSockets.push_back(info);
-					//TotalClients++;
-					printf("New client connected on socket %d\n", (int)acceptSocket);
-				}
-			}
+			printf("Bytes sent: %d\n", result);
 		}
-	}
+		else if (result == 0)
+			printf("Connection closing...\n");
+		else {
+			printf("recv failed with error: %d\n", WSAGetLastError());
+			closesocket(clientSocket);
+			WSACleanup();
+			return 1;
+		}
+		/*	}
 
-		//----------------------------------------   Recv and Send   ------------------------------------------------
-	//	for (int i = 0; i < clientSockets.size(); i++)
-	//	{
-	//		ClientInfo* client = clientSockets.at(i);
+		}*/
+	} while (true);
 
-	//		// If the ReadSet is marked for this socket, then this means data is available to be read on the socket
-	//		if (FD_ISSET(client->socket, &ReadSet))
-	//		{
-	//			// if it is set, we can read the data from that socket
-	//			total--;
 
-	//			client->dataBuf.buf = client->buffer->_buffer.data();
-	//			client->dataBuf.len = client->buffer->_buffer.size();
-
-	//			DWORD Flags = 0;
-	//			result = WSARecv(
-	//				client->socket,
-	//				&(client->dataBuf),
-	//				1,
-	//				&RecvBytes,
-	//				&Flags,
-	//				NULL,
-	//				NULL
-	//			);
-	//			// Result > 0 we receive data, if 0 connection lost
-	//			if (result == SOCKET_ERROR)
-	//			{
-	//				if (WSAGetLastError() == WSAEWOULDBLOCK) {}
-	//				else
-	//				{
-	//					printf("WSARecv failed on socket %d with error: %d\n", (int)client->socket, WSAGetLastError());
-	//					RemoveClient(i);
-	//				}
-	//			}
-	//			else // RecvBytes > 0, we got data
-	//			{
-	//				printf("WSARecv() is OK!\n");
-	//				if (RecvBytes == 0)
-	//				{
-	//					RemoveClient(i);
-	//				}
-	//				else if (RecvBytes == SOCKET_ERROR)
-	//				{
-	//					printf("recv: There was an error..%d\n", WSAGetLastError());
-	//					continue;
-	//				}
-	//				else
-	//				{
 	//					memcpy(client->buffer->_buffer.data(), client->dataBuf.buf, client->dataBuf.len);
 
 	//					// Read in header
@@ -535,17 +485,18 @@ int main(int argc, char** argv)
 	//}
 
 	// Close
-	result = shutdown(acceptSocket, SD_SEND);
+	result = shutdown(clientSocket, SD_SEND);
 	if (result == SOCKET_ERROR) {
 		printf("shutdown failed with error: %d\n", WSAGetLastError());
-		closesocket(acceptSocket);
+		closesocket(clientSocket);
 		WSACleanup();
 		return 1;
 	}
 
 	// Cleanup
-	closesocket(acceptSocket);
+	closesocket(clientSocket);
 	WSACleanup();
+	//delete buffer;
 
 	return 0;
 }
