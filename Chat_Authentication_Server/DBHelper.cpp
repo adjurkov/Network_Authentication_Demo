@@ -1,5 +1,8 @@
 #include "DBHelper.h"
 
+sql::PreparedStatement* g_GetEmails;
+sql::PreparedStatement* g_InsertWebAuth;
+
 DBHelper::DBHelper(void)
 	: m_IsConnected(false)
 	, m_IsConnecting(false)
@@ -16,10 +19,10 @@ bool DBHelper::IsConnected(void)
 
 CreateAccountWebResult DBHelper::CreateAccount(const string& email, const string& password)
 {
-	sql::Statement* stmt = m_Connection->createStatement();
+	g_GetEmails->setString(1, email);
 	try
 	{
-		m_ResultSet = stmt->executeQuery("SELECT * FROM `web_auth`;");
+		m_ResultSet = g_GetEmails->executeQuery();
 	}
 	catch (SQLException e)
 	{
@@ -27,20 +30,52 @@ CreateAccountWebResult DBHelper::CreateAccount(const string& email, const string
 		return CreateAccountWebResult::INTERNAL_SERVER_ERROR;
 	}
 
-	while (m_ResultSet->next())
+	if (m_ResultSet->rowsCount() > 0)
 	{
-		int32_t id = m_ResultSet->getInt(sql::SQLString("id"));
-		printf("id: %d\n", id);
-		int32_t id_bycolumn = m_ResultSet->getInt(1);
-		printf("id_bycolumn(1): %d\n", id_bycolumn);
-
-		SQLString email = m_ResultSet->getString("email");
-		printf("email: %s\n", email.c_str());
+		printf("Account already exists with email!\n");
+		return CreateAccountWebResult::ACCOUNT_ALREADY_EXISTS;
 	}
 
+	try
+	{
+		g_InsertWebAuth->setString(1, email);
+		g_InsertWebAuth->setString(2, password);
+		g_InsertWebAuth->setString(3, "Salt");
+		g_InsertWebAuth->setInt(4, 7);
+		int result = g_InsertWebAuth->executeUpdate();
+	}
+	catch (SQLException e)
+	{
+		printf("Failed to insert account into web_auth!\n");
+		return CreateAccountWebResult::INTERNAL_SERVER_ERROR;
+	}
+
+	sql::Statement* stmt = m_Connection->createStatement();
+	try
+	{
+		m_ResultSet = stmt->executeQuery("SELECT LAST_INSERT_ID();");
+	}
+	catch (SQLException e)
+	{
+		printf("Failed to retrieve last insert id!\n");
+		return CreateAccountWebResult::INTERNAL_SERVER_ERROR;
+	}
+	int lastId = 0;
+	if (m_ResultSet->next())
+	{
+		lastId = m_ResultSet->getInt(1);
+	}
 
 	printf("Successfully retrieved web_auth data!\n");
 	return CreateAccountWebResult::SUCCESS;
+}
+
+void DBHelper::GeneratePreparedStatements(void)
+{
+	g_GetEmails = m_Connection->prepareStatement(
+		"SELECT email FROM `web_auth` WHERE email = ?;");
+	g_InsertWebAuth = m_Connection->prepareStatement(
+		"INSERT INTO web_auth(email, hashed_password, salt, userId) VALUES (?, ?, ?, ?);");
 }
 
 void DBHelper::Connect(const string& hostname, const string& username, const string& password)
@@ -63,6 +98,8 @@ void DBHelper::Connect(const string& hostname, const string& username, const str
 	}
 	m_IsConnected = true;
 	m_IsConnecting = false;
+
+	GeneratePreparedStatements();
 
 	printf("Successfully connected to database!\n");
 }

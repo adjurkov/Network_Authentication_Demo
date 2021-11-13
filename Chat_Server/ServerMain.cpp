@@ -10,9 +10,8 @@
 #include <iostream>
 #include "cBuffer.h"
 #include "ProtocolManager.h"
-#include "cProtobuf.h"
 
-//#include <gen/authentication.pb.h>
+#include "gen/authentication.pb.h"
 
 #pragma comment (lib, "Ws2_32.lib")
 #define DEFAULT_BUFLEN 16
@@ -31,7 +30,6 @@ struct ClientInfo
 
 	WSABUF dataBuf;
 	cBuffer* buffer;
-	cProtobuf* protobuf;
 	int bytesRECV;
 };
 //----------------------------------------   Global Variables   ------------------------------------------------
@@ -155,11 +153,7 @@ int init()
 	}
 
 	// Create a SOCKET for connecting with server
-	listenSocket = socket(
-		addrResult->ai_family,
-		addrResult->ai_socktype,
-		addrResult->ai_protocol
-	);
+	listenSocket = socket(addrResult->ai_family, addrResult->ai_socktype, addrResult->ai_protocol);
 	if (listenSocket == INVALID_SOCKET)
 	{
 		printf("socket() failed with error %d\n", WSAGetLastError());
@@ -186,7 +180,6 @@ int init()
 	{
 		// Create a Socket for connecting to server
 		authSocket = socket(infoResult->ai_family, ptr->ai_socktype, ptr->ai_protocol);
-
 		if (authSocket == INVALID_SOCKET)
 		{
 			printf("socket failed with error: %ld\n", WSAGetLastError());
@@ -194,16 +187,7 @@ int init()
 			return 1;
 		}
 
-		//// Non-blocking
-		//DWORD NonBlock = 1;
-		//result = ioctlsocket(authSocket, FIONBIO, &NonBlock);
-		//if (result == SOCKET_ERROR)
-		//{
-		//	printf("ioctlsocket() failed with error %d\n", WSAGetLastError());
-		//	closesocket(authSocket);
-		//	WSACleanup();
-		//	return 1;
-		//}
+		
 
 		// Connect to server
 		result = connect(authSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
@@ -228,16 +212,28 @@ int init()
 		return 1;
 	}
 
-	const char* sendbuf = "this is a test";
-	// Send an initial buffer OT AUTH SERVER, TEST
-	result = send(authSocket, sendbuf, (int)strlen(sendbuf), 0);
-	if (result == SOCKET_ERROR) {
-		printf("send failed with error: %d\n", WSAGetLastError());
+	// Non-blocking
+	DWORD NonBlock = 1;
+	result = ioctlsocket(authSocket, FIONBIO, &NonBlock);
+	if (result == SOCKET_ERROR)
+	{
+		printf("ioctlsocket() failed with error %d\n", WSAGetLastError());
 		closesocket(authSocket);
 		WSACleanup();
 		return 1;
 	}
-	printf("Bytes Sent: %ld\n", result);
+
+	//const char* sendbuf = "this is a test";
+	//// Send an initial buffer
+	//result = send(authSocket, sendbuf, (int)strlen(sendbuf), 0);
+	//if (result == SOCKET_ERROR) {
+	//	printf("send failed with error: %d\n", WSAGetLastError());
+	//	closesocket(authSocket);
+	//	WSACleanup();
+	//	return 1;
+	//}
+
+	//printf("Bytes Sent: %ld\n", result);
 
 
 	//------------------------------------------   Bind Socket   --------------------------------------------------
@@ -341,7 +337,6 @@ int main(int argc, char** argv)
 					info->socket = acceptSocket; // storing new socket as accept socket
 					info->bytesRECV = 0; // the write index
 					info->buffer = new cBuffer;
-					info->protobuf = new cProtobuf;
 					info->buffer->_buffer.resize(500);
 
 					clientSockets.push_back(info);
@@ -671,24 +666,26 @@ int main(int argc, char** argv)
 								packet.header.packetLength = packetLength;
 
 								// Prepare to send to authentication server
-								client->protobuf->create_account_web->set_requestid(client->requestId);
-								client->protobuf->create_account_web->set_email(packet.email);
-								client->protobuf->create_account_web->set_plaintextpassword(packet.password);
+								authentication::CreateAccountWeb newAccount;
+								newAccount.set_requestid(client->requestId);
+								newAccount.set_email(packet.email);
+								newAccount.set_plaintextpassword(packet.password);
 
 								// Clear the buffer
-								client->buffer->_buffer.clear();
+							/*	client->buffer->_buffer.clear();
 								client->buffer->readIndex = 0;
-								client->buffer->writeIndex = 0;
+								client->buffer->writeIndex = 0;*/
 
 								// Growing the buffer just enough to deal with packet
-								int newBufferSize = packet.header.packetLength;
-								client->buffer->_buffer.resize(newBufferSize);
+							/*	int newBufferSize = packet.header.packetLength;
+								client->buffer->_buffer.resize(newBufferSize);*/
 
 								// Serialize message to be sent
 								std::string serializedString;
-
 								
-								client->protobuf->create_account_web->SerializeToString(&serializedString);
+
+								newAccount.SerializeToString(&serializedString);
+
 								int packetSize = 4 + serializedString.length();
 
 								// Change this probably
@@ -709,6 +706,7 @@ int main(int argc, char** argv)
 									WSACleanup();
 									return 1;
 								}
+								printf("Bytes Sent: %ld\n", result);
 							
 							
 

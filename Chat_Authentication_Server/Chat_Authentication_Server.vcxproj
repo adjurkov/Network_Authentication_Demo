@@ -147,10 +147,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\dev\bin\gen\authentication.pb.cc" />
     <ClCompile Include="AuthenServerMain.cpp" />
     <ClCompile Include="DBHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\dev\bin\gen\authentication.pb.h" />
     <ClInclude Include="DBHelper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

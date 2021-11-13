@@ -146,13 +146,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="cBuffer.h" />
-    <ClInclude Include="cProtobuf.h" />
     <ClInclude Include="gen\authentication.pb.h" />
     <ClInclude Include="ProtocolManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cBuffer.cpp" />
-    <ClCompile Include="cProtobuf.cpp" />
     <ClCompile Include="gen\authentication.pb.cc" />
     <ClCompile Include="ProtocolManager.cpp" />
   </ItemGroup>

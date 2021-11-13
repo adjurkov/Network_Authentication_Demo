@@ -31,6 +31,8 @@ public:
 	CreateAccountWebResult CreateAccount(const string& email, const string& password);
 
 private:
+	void GeneratePreparedStatements(void);
+
 	mysql::MySQL_Driver* m_Driver;
 	Connection* m_Connection;
 	ResultSet* m_ResultSet;
