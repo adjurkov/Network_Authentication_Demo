@@ -2,6 +2,8 @@
 
 sql::PreparedStatement* g_GetEmails;
 sql::PreparedStatement* g_InsertWebAuth;
+sql::PreparedStatement* g_InsertUser;
+sql::PreparedStatement* g_GetUserId;
 
 DBHelper::DBHelper(void)
 	: m_IsConnected(false)
@@ -17,8 +19,9 @@ bool DBHelper::IsConnected(void)
 	return m_IsConnected;
 }
 
-CreateAccountWebResult DBHelper::CreateAccount(const string& email, const string& password)
+CreateAccountWebResult DBHelper::CreateAccount(const string& email, const string& password, const string& salt, int& userId)
 {
+	// Checking if an account already exists first-------------------------------------------------------------
 	g_GetEmails->setString(1, email);
 	try
 	{
@@ -36,20 +39,19 @@ CreateAccountWebResult DBHelper::CreateAccount(const string& email, const string
 		return CreateAccountWebResult::ACCOUNT_ALREADY_EXISTS;
 	}
 
+
+	// Insert into user table --------------------------------------------------------------------------------------
 	try
 	{
-		g_InsertWebAuth->setString(1, email);
-		g_InsertWebAuth->setString(2, password);
-		g_InsertWebAuth->setString(3, "Salt");
-		g_InsertWebAuth->setInt(4, 7);
-		int result = g_InsertWebAuth->executeUpdate();
+		int result = g_InsertUser->executeUpdate();
 	}
 	catch (SQLException e)
 	{
-		printf("Failed to insert account into web_auth!\n");
+		printf("Failed to insert account into user table!\n");
 		return CreateAccountWebResult::INTERNAL_SERVER_ERROR;
 	}
 
+	// Getting user ID from user table -----------------------------------------------------------------------------
 	sql::Statement* stmt = m_Connection->createStatement();
 	try
 	{
@@ -64,7 +66,25 @@ CreateAccountWebResult DBHelper::CreateAccount(const string& email, const string
 	if (m_ResultSet->next())
 	{
 		lastId = m_ResultSet->getInt(1);
+		userId = lastId;
 	}
+
+	// Insert into web_auth table ----------------------------------------------------------------------------------
+	try
+	{
+		g_InsertWebAuth->setString(1, email);
+		g_InsertWebAuth->setString(2, password);
+		g_InsertWebAuth->setString(3, salt);
+		g_InsertWebAuth->setInt(4, lastId);
+		int result = g_InsertWebAuth->executeUpdate();
+	}
+	catch (SQLException e)
+	{
+		printf("Failed to insert account into web_auth!\n");
+		return CreateAccountWebResult::INTERNAL_SERVER_ERROR;
+	}
+
+	
 
 	printf("Successfully retrieved web_auth data!\n");
 	return CreateAccountWebResult::SUCCESS;
@@ -72,10 +92,19 @@ CreateAccountWebResult DBHelper::CreateAccount(const string& email, const string
 
 void DBHelper::GeneratePreparedStatements(void)
 {
+	// web_auth
 	g_GetEmails = m_Connection->prepareStatement(
 		"SELECT email FROM `web_auth` WHERE email = ?;");
 	g_InsertWebAuth = m_Connection->prepareStatement(
 		"INSERT INTO web_auth(email, hashed_password, salt, userId) VALUES (?, ?, ?, ?);");
+
+	 // user
+	g_InsertUser = m_Connection->prepareStatement(
+		"INSERT INTO user(last_login, creation_date) VALUES (NOW(), NOW());");
+
+
+	//g_GetUserId = m_Connection->prepareStatement(
+	//	"SELECT id FROM `user` WHERE id = ?;");
 }
 
 void DBHelper::Connect(const string& hostname, const string& username, const string& password)

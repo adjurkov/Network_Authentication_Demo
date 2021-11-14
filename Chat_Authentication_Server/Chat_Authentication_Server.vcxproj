@@ -148,11 +148,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\dev\bin\gen\authentication.pb.cc" />
+    <ClCompile Include="..\dev\include\sha256.cpp" />
     <ClCompile Include="AuthenServerMain.cpp" />
     <ClCompile Include="DBHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\dev\bin\gen\authentication.pb.h" />
+    <ClInclude Include="..\dev\include\sha256.h" />
     <ClInclude Include="DBHelper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

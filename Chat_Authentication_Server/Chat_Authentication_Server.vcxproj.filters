@@ -24,12 +24,18 @@
     <ClCompile Include="..\dev\bin\gen\authentication.pb.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\dev\include\sha256.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DBHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\dev\bin\gen\authentication.pb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dev\include\sha256.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

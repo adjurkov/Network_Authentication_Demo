@@ -13,8 +13,9 @@
 #include "cBuffer.h"
 #include "gen/authentication.pb.h"
 #include "ProtocolManager.h"
+#include "sha256.h"
 
-DBHelper database;
+
 
 #pragma comment (lib, "Ws2_32.lib")
 #define DEFAULT_BUFLEN 512
@@ -22,26 +23,21 @@ DBHelper database;
 
 SOCKET clientSocket = INVALID_SOCKET;
 SOCKET listenSocket = INVALID_SOCKET;
-
 int result;
-
 DWORD RecvBytes;
 DWORD SentBytes;
 DWORD NonBlock = 1;
-
 cBuffer* buffer;
+
+DBHelper database;
+SHA256 sha256;
+
+
 
 //--------------------------------------------------------------------------------------------------------------
 
 int init()
 {
-	database.Connect("127.0.0.1", "root", "root");
-	database.CreateAccount("ana_djurkovic@hotmail.com", "password");
-	//system("Pause");
-
-	//return 0;
-
-	//----------------------------------------   Initialize Winsock   ------------------------------------------------
 	WSADATA wsaData;
 
 	// Initialize Winsock
@@ -157,10 +153,14 @@ int init()
 
 int main(int argc, char** argv)
 {
+	
+
 	buffer = new cBuffer();
 
 	// Initialize winsock, create sockets, bind, listen
 	init();
+
+	database.Connect("127.0.0.1", "root", "root");
 
 	//----------------------------------------   Network Loop   ------------------------------------------------
 	printf("Entering accept/recv/send loop...\n");
@@ -188,7 +188,35 @@ int main(int argc, char** argv)
 
 			switch (deserializedNewAccount.requestid())
 			{
-				case 
+			case Register:
+			{
+				// Generate SALT using email
+				std::string salt = sha256(deserializedNewAccount.email());
+
+				// Generate hashed password
+				std::string hash = sha256(salt + deserializedNewAccount.plaintextpassword());
+
+				// Try to create an account
+				int userId;
+				int registerResult = database.CreateAccount(deserializedNewAccount.email(), hash, salt, userId);
+				switch (registerResult)
+				{
+				case SUCCESS:
+				{
+					authentication::CreateAccountWebSuccess newAccountSuccess;
+					newAccountSuccess.set_userid(userId);
+				}
+					break;
+				case INVALID_PASSWORD:
+					break;
+				case INTERNAL_SERVER_ERROR:
+					break;
+				default:
+					break;
+				}
+				
+			}
+
 			}
 
 
@@ -202,6 +230,7 @@ int main(int argc, char** argv)
 			}
 			printf("Bytes sent: %d\n", result);
 		}
+
 		else if (result == 0)
 			printf("Connection closing...\n");
 		else {
